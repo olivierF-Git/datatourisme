@@ -49,21 +49,12 @@ export default function App() {
             isLocatedAt: {
               schema_geo: {
                 schema_latitude: {
-                  _gt: ${parseFloat(latitude+0.000001)}
+                  _gte: ${parseFloat(latitude-0.1)}
+                  _lte: ${parseFloat(latitude+0.1)}
                 }
-                _and : {
-                  schema_latitude : {
-                    _lt: ${parseFloat(latitude-0.000001)}
-                  }
-                }
-                  schema_longitude: {
-                    _gt: ${parseFloat(longitude+0.000001)}
-                  }
-                
-                _and : {
-                  schema_longitude : {
-                    _lt: ${parseFloat(longitude-0.000001)}
-                  }
+                schema_longitude: {
+                    _gte: ${parseFloat(longitude-0.1)}
+                    _lte: ${parseFloat(longitude+0.1)}
                 }
               }
             }
@@ -184,7 +175,7 @@ export default function App() {
     if (data.poi.results[0]) {
       positionPoi = [data.poi.results[0].isLocatedAt[0].schema_geo[0].schema_latitude[0], data.poi.results[0].isLocatedAt[0].schema_geo[0].schema_longitude[0]];
     }
-    console.log(positionPoi)
+    
     return (
       <MapContainer center={positionPoi ? positionPoi : [46.156227, -1.148393]} zoom={13} scrollWheelZoom={false} style={{ height: 600 }}>
         <TileLayer
